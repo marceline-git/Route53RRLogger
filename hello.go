@@ -2,47 +2,71 @@ package main
  
 import (
   "fmt"
+  "os"
+  "strings"
+  "encoding/json"
   "github.com/aws/aws-lambda-go/lambda"
   "github.com/aws/aws-sdk-go/aws"
   "github.com/aws/aws-sdk-go/aws/session"
   "github.com/aws/aws-sdk-go/service/route53"
+  "github.com/aws/aws-sdk-go/service/s3"
 )
  
 type MyEvent struct {
   HostZoneId string `json:"HostZoneId"`
+  BucketName string `json:"BucketName"`
 }
 
 type MyResponse struct {
   Message string `json:"Response:"`
 }
 
-/*
-func init() {
-  mySession := session.Must(session.NewSession())
-  svc := route53.New(
-    mySession,
-    aws.NewConfig().WithRegion("us-east-1"),
-  )
-}
-*/
-
-func hello(event MyEvent) (MyResponse, error) {
+func getRecord(id string) (*route53.ListResourceRecordSetsOutput, error) {
   mySession := session.Must(session.NewSession())
   svc := route53.New(
     mySession,
     aws.NewConfig().WithRegion("us-east-1"),
   )
   input := &route53.ListResourceRecordSetsInput {
-    HostedZoneId: aws.String(event.HostZoneId),
+    HostedZoneId: aws.String(id),
   }
-  result, _ := svc.ListResourceRecordSets(input)
-  fmt.Printf("result.IsTruncated: %v ", *result.IsTruncated)
-  
+  result, err := svc.ListResourceRecordSets(input)
   if *result.IsTruncated {
     // Truncated, handle pagination
     fmt.Printf("truncated")
   }
-  return MyResponse{Message: fmt.Sprintf("OK 200", event.HostZoneId)}, nil
+  return result, err
+}
+
+func putObject(bucketName string, data *route53.ListResourceRecordSetsOutput) (*s3.PutObjectOutput, error) {
+  mySession := session.Must(session.NewSession())
+  svc := s3.New(
+    mySession,
+    aws.NewConfig().WithRegion("ap-northeast-1"),
+  )
+
+  jsonBytes, err := json.Marshal(*data)
+  jsonFile, err := os.Create("/tmp/tmp.json")
+  if err != nil {
+          panic(err)
+  }
+  defer jsonFile.Close()
+  jsonFile.Write(jsonBytes)
+  jsonFile.Close()
+
+  input := &s3.PutObjectInput{
+    Body:   aws.ReadSeekCloser(strings.NewReader("/tmp/tmp.json")),
+    Bucket: aws.String(bucketName),
+    Key:    aws.String("/rrlogs/aaaa.json"),
+  }
+  return svc.PutObject(input)
+}
+
+func hello(event MyEvent) (MyResponse, error) {
+  data,_ := getRecord(event.HostZoneId)
+  response,_ := putObject(event.BucketName, data)
+  fmt.Printf("res: %v", response)
+  return MyResponse{Message: fmt.Sprintf("OK 200")}, nil
 }
  
 func main() {

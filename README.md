@@ -1,11 +1,13 @@
 # What's this
 Lambda 関数 Golang runtime の練習。  
-Route 53 RRset の情報を取得し、どこかに保存する。
+Route 53 RRset の情報を取得し、どこかに保存する。  
+とりあえず struct to json (および json file) も学びたかったので S3 に保存することにした。
 
 # TODO
-- そもそも完成してない
-- データストア
+- timestamped S3 path
 - Pagination
+- response
+- error handling
 
 # 準備
 ## パッケージのインストール
@@ -23,10 +25,12 @@ https://docs.aws.amazon.com/sdk-for-go/api/service/route53/#Route53.ListResource
 https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResourceRecordSets.html
 
 # Testing
-以下のような json で HostedZoneId を渡す。
+json で情報を渡す。  
+HostZoneId と BucketName が今のところ必要。
 
 ```json
 {
-  "HostZoneId": "Z1234EXAMPLE"
+  "HostZoneId": "Z272L9J7UYUM7A",
+  "BucketName": "sample-bucket"
 }
 ```
