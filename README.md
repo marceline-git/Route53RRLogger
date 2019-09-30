@@ -5,7 +5,7 @@ Route 53 RRset の情報を取得し、どこかに保存する。
 # TODO
 - そもそも完成してない
 - データストア
-- Pagenation
+- Pagination
 
 # 準備
 ## パッケージのインストール
