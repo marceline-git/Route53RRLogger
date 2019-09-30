@@ -22,3 +22,11 @@ https://docs.aws.amazon.com/sdk-for-go/api/service/route53/#Route53.ListResource
 
 https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResourceRecordSets.html
 
+# Testing
+以下のような json で HostedZoneId を渡す。
+
+```json
+{
+  "HostZoneId": "Z1234EXAMPLE"
+}
+```
