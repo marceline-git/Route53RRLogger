@@ -30,7 +30,7 @@ HostZoneId と BucketName が今のところ必要。
 
 ```json
 {
-  "HostZoneId": "Z272L9J7UYUM7A",
+  "HostZoneId": "Z123EXAMPLEAA",
   "BucketName": "sample-bucket"
 }
 ```
