@@ -1,3 +1,7 @@
+# What's this
+Lambda 関数 Golang runtime の練習。  
+Route 53 RRset の情報を取得し、どこかに保存する。
+
 # TODO
 - そもそも完成してない
 - データストア
