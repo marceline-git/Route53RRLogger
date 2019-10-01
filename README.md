@@ -4,8 +4,7 @@ Route 53 RRset の情報を取得し、どこかに保存する。
 とりあえず struct to json (および json file) も学びたかったので S3 に保存することにした。
 
 # TODO
-- timestamped S3 path
-- Pagination
+- pagination
 - response
 - error handling
 
