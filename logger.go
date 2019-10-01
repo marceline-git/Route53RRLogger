@@ -66,7 +66,7 @@ func putObject(bucketName string, data *route53.ListResourceRecordSetsOutput) (*
   return svc.PutObject(input)
 }
 
-func hello(event MyEvent) (MyResponse, error) {
+func logger(event MyEvent) (MyResponse, error) {
   data,_ := getRecord(event.HostZoneId)
   response,_ := putObject(event.BucketName, data)
   fmt.Printf("res: %v", response)
@@ -74,5 +74,5 @@ func hello(event MyEvent) (MyResponse, error) {
 }
  
 func main() {
-  lambda.Start(hello)
+  lambda.Start(logger)
 }
