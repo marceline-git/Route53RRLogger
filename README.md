@@ -3,6 +3,8 @@ Lambda 関数 Golang runtime の練習。
 Route 53 RRset の情報を取得し、どこかに保存する。  
 とりあえず struct to json (および json file) も学びたかったので S3 に保存することにした。
 
+`s3://bucketname/rrlogs/yyyy/MM/dd/yyyy-MMdd-HHmm.json` 形式で保存される。
+
 # TODO
 - pagination
 - response
