@@ -30,7 +30,17 @@ HostZoneId と BucketName が今のところ必要。
 
 ```json
 {
-  "HostZoneId": "Z272L9J7UYUM7A",
+  "HostZoneId": "Z123EXAMPLEAA",
   "BucketName": "sample-bucket"
+}
+```
+
+# memo
+## struct の import
+外部のパッケージにて利用されている struct はそのまま使えないので以下のように `package.Struct` としてやる必要があった。
+
+```go
+func getRecord(id string) (*route53.ListResourceRecordSetsOutput, error) {
+...
 }
 ```
