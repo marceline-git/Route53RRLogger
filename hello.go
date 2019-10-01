@@ -4,6 +4,7 @@ import (
   "fmt"
   "os"
   "strings"
+  "time"
   "encoding/json"
   "github.com/aws/aws-lambda-go/lambda"
   "github.com/aws/aws-sdk-go/aws"
@@ -54,10 +55,13 @@ func putObject(bucketName string, data *route53.ListResourceRecordSetsOutput) (*
   jsonFile.Write(jsonBytes)
   jsonFile.Close()
 
+  prefix := time.Now().Format("/2006/01/02/")
+  filename := time.Now().Format("2006-0102-1504") + ".json"
+
   input := &s3.PutObjectInput{
     Body:   aws.ReadSeekCloser(strings.NewReader("/tmp/tmp.json")),
     Bucket: aws.String(bucketName),
-    Key:    aws.String("/rrlogs/aaaa.json"),
+    Key:    aws.String("/rrlogs"+prefix + filename),
   }
   return svc.PutObject(input)
 }
