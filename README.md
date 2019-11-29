@@ -25,7 +25,7 @@ https://docs.aws.amazon.com/sdk-for-go/api/service/route53/#Route53.ListResource
 
 https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResourceRecordSets.html
 
-# Testing
+# Test
 json で情報を渡す。  
 HostZoneId と BucketName が今のところ必要。
 
@@ -41,14 +41,4 @@ HostZoneId と BucketName が今のところ必要。
 $ GOOS=linux GOARCH=amd64 go build -o logger logger.go
 $ zip handler.zip ./logger
 $ aws lambda update-function-code --region eu-west-1 --function-name R53-Logger --zip-file fileb://handler.zip
-```
-
-# memo
-## struct の import
-外部のパッケージにて利用されている struct はそのまま使えないので以下のように `package.Struct` としてやる必要があった。
-
-```go
-func getRecord(id string) (*route53.ListResourceRecordSetsOutput, error) {
-...
-}
 ```
